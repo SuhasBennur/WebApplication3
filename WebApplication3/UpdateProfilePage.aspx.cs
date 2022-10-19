@@ -15,6 +15,7 @@ namespace WebApplication3
     public partial class UpdateProfilePage : System.Web.UI.Page
     {
         static string id;
+        StringBuilder html = new StringBuilder();
         SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=UserLoginDetails;Integrated Security=True");
 
         protected void Page_Load(object sender, EventArgs e)
@@ -31,7 +32,6 @@ namespace WebApplication3
                 DataTable dt = qs.SelectAllinTable(id);
 
                 //Building an HTML string.
-                StringBuilder html = new StringBuilder();
 
                 //Table start.
                 html.Append("<table border = '1'>");
@@ -80,7 +80,7 @@ namespace WebApplication3
                 int check = cmd.ExecuteNonQuery();
                 selectQuery qs = new selectQuery();
                 List<string> data = qs.SelectAll(id);
-                for (int i = 0; i < data.Count; i++)
+                if (data.Count == 6)
                 {
                     LName.Text = data[0];
                     psw.Text = data[1];
@@ -89,6 +89,7 @@ namespace WebApplication3
                     DOB.Text = data[4];
                     id = data[5];
                 }
+
                 if (check != 0)
                 {
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Updated successfully...')", true);
@@ -112,13 +113,13 @@ namespace WebApplication3
 
         protected void GetAllDetails(object sender, EventArgs e)
         {
-            Page_Load(sender, e);
+            Display();
             if (id != null)
             {
                 selectQuery qs = new selectQuery();
                 List<string> data = qs.SelectAll(id);
 
-                for (int i = 0; i < data.Count; i++)
+                if (data.Count == 6)
                 {
                     LName.Text = data[0];
                     psw.Text = data[1];
