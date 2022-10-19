@@ -26,11 +26,11 @@
 
         #color {
             width: 150px;
-            margin-left: 1300px;
+            margin-left: 30px;
         }
 
         #ct {
-            margin-left: 1310px;
+            margin-left: 30px;
         }
     </style>
 
@@ -41,7 +41,7 @@
         <div>
             <label id="ct">Change Theme</label>
             <%--<input type="color" id="color" />--%>
-            <asp:DropDownList ID="color" runat="server">
+            <asp:DropDownList ID="color" runat="server" AutoPostBack="true" OnSelectedIndexChanged="color_SelectedIndexChanged" >
                 <asp:ListItem>Select Theme</asp:ListItem>
                 <asp:ListItem>Black</asp:ListItem>
                 <asp:ListItem>Orange</asp:ListItem>
@@ -49,10 +49,11 @@
             </asp:DropDownList>
             <hr />
             <script>
-                let color = document.getElementById("color");
-                color.onchange = function () {
-                    document.body.style.backgroundColor = this.value;
-                }
+                //let color = document.getElementById("color");
+                //color.onchange = function ()
+                //{
+                //    document.body.style.backgroundColor = this.value;
+                //}
             </script>
             <h1>Login Page</h1>
         </div>

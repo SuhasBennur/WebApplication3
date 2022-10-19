@@ -15,56 +15,58 @@ namespace WebApplication3
     public partial class UpdateProfilePage : System.Web.UI.Page
     {
         static string id;
-        StringBuilder html = new StringBuilder();
         SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=UserLoginDetails;Integrated Security=True");
 
         protected void Page_Load(object sender, EventArgs e)
         {
             Display();
+            string bgc = Session["bgcolor"].ToString();
+            if (bgc == "Select Theme")
+            {
+                bodyID.Attributes.Add("style", "background-color: #9B01F9");
+            }
+            else if (bgc == "Black")
+            {
+                bodyID.Attributes.Add("style", "background-color: #000000");
+            }
+            else if (bgc == "Orange")
+            {
+                bodyID.Attributes.Add("style", "background-color: #FFA500");
+            }
+            else if (bgc == "Blue")
+            {
+                bodyID.Attributes.Add("style", "background-color: #0000FF");
+            }
         }
         protected void Display()
         {
             id = Session["ID"].ToString();
-            if (!this.IsPostBack)
+            StringBuilder html = new StringBuilder();
+            selectQuery qs = new selectQuery();
+            DataTable dt = qs.SelectAllinTable(id);
+            html.Append("<table border = '1'>");
+            html.Append("<tr>");
+            foreach (DataColumn column in dt.Columns)
             {
-                //Populating a DataTable from database.
-                selectQuery qs = new selectQuery();
-                DataTable dt = qs.SelectAllinTable(id);
-
-                //Building an HTML string.
-
-                //Table start.
-                html.Append("<table border = '1'>");
-
-                //Building the Header row.
+                html.Append("<th>");
+                html.Append(column.ColumnName);
+                html.Append("</th>");
+            }
+            html.Append("</tr>");
+            foreach (DataRow row in dt.Rows)
+            {
                 html.Append("<tr>");
                 foreach (DataColumn column in dt.Columns)
                 {
-                    html.Append("<th>");
-                    html.Append(column.ColumnName);
-                    html.Append("</th>");
+                    html.Append("<td>");
+                    html.Append(row[column.ColumnName]);
+                    html.Append("</td>");
                 }
                 html.Append("</tr>");
-
-                //Building the Data rows.
-                foreach (DataRow row in dt.Rows)
-                {
-                    html.Append("<tr>");
-                    foreach (DataColumn column in dt.Columns)
-                    {
-                        html.Append("<td>");
-                        html.Append(row[column.ColumnName]);
-                        html.Append("</td>");
-                    }
-                    html.Append("</tr>");
-                }
-
-                //Table end.
-                html.Append("</table>");
-
-                //Append the HTML string to Placeholder.
-                PlaceHolder1.Controls.Add(new Literal { Text = html.ToString() });
             }
+            html.Append("</table>");
+            PlaceHolder1.Controls.Add(new Literal { Text = html.ToString() });
+            
         }
         protected void UpdateProfilePages(object sender, EventArgs e)
         {
@@ -93,7 +95,9 @@ namespace WebApplication3
                 if (check != 0)
                 {
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Updated successfully...')", true);
-                    Page_Load(sender, e);
+                    LName.Text = ""; psw.Text = ""; RName.Text = ""; DName.Text = ""; DOB.Text = "";
+                    PlaceHolder1.Controls.Clear();
+                    Display();
                 }
                 else
                 {
@@ -113,7 +117,6 @@ namespace WebApplication3
 
         protected void GetAllDetails(object sender, EventArgs e)
         {
-            Display();
             if (id != null)
             {
                 selectQuery qs = new selectQuery();
@@ -128,6 +131,28 @@ namespace WebApplication3
                     DOB.Text = data[4];
                     id = data[5];
                 }
+            }
+        }
+
+        protected void color_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedText = color.SelectedItem.Text;
+            Session["bgcolor"] = selectedText;
+            if (selectedText == "Select Theme")
+            {
+                bodyID.Attributes.Add("style", "background-color: #9B01F9");
+            }
+            else if (selectedText == "Black")
+            {
+                bodyID.Attributes.Add("style", "background-color: #000000");
+            }
+            else if (selectedText == "Orange")
+            {
+                bodyID.Attributes.Add("style", "background-color: #FFA500");
+            }
+            else if (selectedText == "Blue")
+            {
+                bodyID.Attributes.Add("style", "background-color: #0000FF");
             }
         }
     }

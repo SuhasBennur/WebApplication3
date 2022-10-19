@@ -12,7 +12,23 @@ namespace WebApplication3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string bgc = Session["bgcolor"].ToString();
+            if (bgc == "Select Theme")
+            {
+                bodyID.Attributes.Add("style", "background-color: #9B01F9");
+            }
+            else if (bgc == "Black")
+            {
+                bodyID.Attributes.Add("style", "background-color: #000000");
+            }
+            else if (bgc == "Orange")
+            {
+                bodyID.Attributes.Add("style", "background-color: #FFA500");
+            }
+            else if (bgc == "Blue")
+            {
+                bodyID.Attributes.Add("style", "background-color: #0000FF");
+            }
         }
 
         protected void Register(object sender, EventArgs e)
@@ -39,6 +55,28 @@ namespace WebApplication3
             else
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Fileds should not be blank.')", true);
+            }
+        }
+
+        protected void color_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedText = color.SelectedItem.Text;
+            Session["bgcolor"] = selectedText;
+            if (selectedText == "Select Theme")
+            {
+                bodyID.Attributes.Add("style", "background-color: #9B01F9");
+            }
+            else if (selectedText == "Black")
+            {
+                bodyID.Attributes.Add("style", "background-color: #000000");
+            }
+            else if (selectedText == "Orange")
+            {
+                bodyID.Attributes.Add("style", "background-color: #FFA500");
+            }
+            else if (selectedText == "Blue")
+            {
+                bodyID.Attributes.Add("style", "background-color: #0000FF");
             }
         }
     }

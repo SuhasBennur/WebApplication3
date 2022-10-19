@@ -11,11 +11,26 @@ namespace WebApplication3
 {
     public partial class ProfilePage : System.Web.UI.Page
     {
-        SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=UserLoginDetails;Integrated Security=True");
         static string id;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string bgc = Session["bgcolor"].ToString();
+            if (bgc == "Select Theme")
+            {
+                bodyID.Attributes.Add("style", "background-color: #9B01F9");
+            }
+            else if (bgc == "Black")
+            {
+                bodyID.Attributes.Add("style", "background-color: #000000");
+            }
+            else if (bgc == "Orange")
+            {
+                bodyID.Attributes.Add("style", "background-color: #FFA500");
+            }
+            else if (bgc == "Blue")
+            {
+                bodyID.Attributes.Add("style", "background-color: #0000FF");
+            }
             id = Session["ID"].ToString();
             if (id != null)
             {
@@ -43,5 +58,27 @@ namespace WebApplication3
         {
             Response.Redirect("LoginPage.aspx");
         }
+        protected void color_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedText = color.SelectedItem.Text;
+            Session["bgcolor"] = selectedText;
+            if (selectedText == "Select Theme")
+            {
+                bodyID.Attributes.Add("style", "background-color: #9B01F9");
+            }
+            else if (selectedText == "Black")
+            {
+                bodyID.Attributes.Add("style", "background-color: #000000");
+            }
+            else if (selectedText == "Orange")
+            {
+                bodyID.Attributes.Add("style", "background-color: #FFA500");
+            }
+            else if (selectedText == "Blue")
+            {
+                bodyID.Attributes.Add("style", "background-color: #0000FF");
+            }
+        }
+
     }
 }

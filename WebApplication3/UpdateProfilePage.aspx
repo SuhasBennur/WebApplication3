@@ -8,7 +8,7 @@
     <style>
         body {
             background-color: blueviolet;
-            color:white;
+            color: white;
         }
 
         td {
@@ -17,32 +17,26 @@
 
         #color {
             width: 150px;
-            margin-left: 1300px;
+            margin-left: 30px;
         }
 
         #ct {
-            margin-left: 1310px;
+            margin-left: 30px;
         }
     </style>
 </head>
-<body>
+<body id="bodyID" runat="server">
     <form id="form1" runat="server">
         <div class="container">
             <label id="ct">Change Theme</label>
             <%--<input type="color" id="color" />--%>
-            <asp:DropDownList ID="color" runat="server">
+            <asp:DropDownList ID="color" runat="server" AutoPostBack="true" OnSelectedIndexChanged="color_SelectedIndexChanged">
                 <asp:ListItem>Select Theme</asp:ListItem>
                 <asp:ListItem>Black</asp:ListItem>
                 <asp:ListItem>Orange</asp:ListItem>
                 <asp:ListItem>Blue</asp:ListItem>
             </asp:DropDownList>
             <hr />
-            <script>
-                let color = document.getElementById("color");
-                color.onchange = function () {
-                    document.body.style.backgroundColor = this.value;
-                }
-            </script>
             <h1>Update Profile Page</h1>
             <p>Edit the details to update</p>
             <asp:PlaceHolder ID="PlaceHolder1" runat="server" />
